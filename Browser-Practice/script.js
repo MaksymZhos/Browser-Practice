@@ -34,14 +34,22 @@ function create_enemy (enemy_dictionary) {
 
 create_enemy(enemy_dictionary);
 
-//Do Later. Create a Function to do the Battle Stuff
+// Player data for now:
+let player_dictionary = {name: "", level: 1, mana: 0}
 
+//Do Later. Create a Function to do the Battle Stuff. I need some way of testing it out without messing with the Html
+
+function battle (player, enemy) {
+  
+
+}
 
 
 // We need an event listener for when the page loads
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  //I want to have a button that I use to load the battle stuff eventually.
 
 });
 

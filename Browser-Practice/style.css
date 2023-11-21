@@ -10,7 +10,7 @@ header{
     border-top-color: #262727 !important;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
-    
+
     border-color: slategray;
     border-style: solid;
 }
@@ -24,9 +24,11 @@ body {
 
 header img{
     border-right-style: solid;
-    padding-right: 20px;
-    height: 100%;
-    margin-left: 40px;
+    padding-right: 5%;
+    align-self: center;
+
+    height: 80%;
+    margin-left: 5%;
     
 
 }
@@ -122,3 +124,67 @@ footer {
     height: 100px;
 }
 
+header .health_mana{
+    align-self: center;
+    margin-left: auto;
+    margin-right: 10%;
+    
+}
+.health{
+    background: linear-gradient(to right, #db343c 85%, #262727 10% );
+    border-style: solid;
+    border-radius: 25px;
+    border-color:slategray ;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: lightgray;
+}
+.mana{
+    background: linear-gradient(to right, #3493db 20%, #262727 10% );
+    border-style: solid;
+    border-radius: 25px;
+    border-color:slategray ;
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: lightgray;
+}
+@media (max-width: 800px){
+    .main_game_section {
+        border-color: slategray;
+        border-style: solid;
+        margin: 20vh auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        background-color: #262727;
+        border-radius: 25px;
+        height: 100vh;
+    }
+
+}
+
+@media (max-width: 600px) {
+    header{
+        display: flex;
+       justify-content: baseline;
+        position:fixed ;
+        top: 0 ;
+        right: 0 ;
+        background-color:  #262727 ;
+        height: 12vh;
+        width: 99% ;
+        border-top-color: #262727 !important;
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+        border-color: slategray;
+        border-style: solid;
+    }
+}
