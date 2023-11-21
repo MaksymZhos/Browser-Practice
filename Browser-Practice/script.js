@@ -10,9 +10,12 @@ function roll_die(number=6) {
 //The idea is that we feed it a dictionary (or many) of traits and it randomly assigns them to a random enemy
 var current_enemy = [];
 
-// Sample Data Structure for Enemy: Name, Type, Description, health stat, attack_stat, mana_stat
-var enemy_dictionary = {names: ["Alpha", "Beta", "Gamma"], types: ["water", "fire", "electric"]};
+// Sample Data Structure for Enemy: Name, element, Description, health stat, attack_stat, mana_stat
+var enemy_dictionary = {names: ["Alpha", "Beta", "Gamma"], element: ["water", "fire", "electric"]};
 
+//Sample Function to create an enemy
+//Inputs: Takes in the dictionary we are using for that area:
+//Notes: I know Python Functions has "Optional Values". I want to use something like that to make it easier to create an enemy so you don't need all the values present.
 function create_enemy (enemy_dictionary) {
   //let returned_enemy = [];
   let name_length = enemy_dictionary['names'].length;
@@ -22,28 +25,171 @@ function create_enemy (enemy_dictionary) {
   // console.log(`Testing Name generation. Name length is ${name_length} and random name chosen is ${enemy_dictionary['names'][name_random]}`);
   console.log(`Testing Name generation. Name length is ${name_length} and random name chosen is ${selected_name}`);
 
-  let type_length = enemy_dictionary['types'].length;
-  let type_random = roll_die(type_length);
-  let selected_type = enemy_dictionary['types'][type_random];
-  // console.log(`Testing Type generation. Type length is ${type_length} and random name chosen is ${enemy_dictionary['types'][type_random]}`);
-  console.log(`Testing Type generation. Type length is ${type_length} and random name chosen is ${selected_type}`);
+  let element_length = enemy_dictionary['element'].length;
+  let element_random = roll_die(element_length);
+  let selected_element = enemy_dictionary['element'][element_random];
+  // console.log(`Testing element generation. element length is ${element_length} and random name chosen is ${enemy_dictionary['element'][element_random]}`);
+  console.log(`Testing element generation. element length is ${element_length} and random name chosen is ${selected_element}`);
 
-  return selected_name, selected_type;
+  return selected_name, selected_element;
 
 }
 
 create_enemy(enemy_dictionary);
 
+
 // Player data for now:
-let player_dictionary = {name: "", level: 1, mana: 0}
+//player stats : name, health, level, mana, race, attack, weapon type, element, block
+let player_dictionary = {name: "", level: 1, mana: 100, race: "", attack: 0, weapon_type: "", element: "", block: 1, exp:25};
+let current_exp = player_dictionary.exp;
+let level_coeficient = (player_dictionary.level / 10) + 1;
+let base_mana = 100 * level_coeficient;
+player_dictionary.mana = base_mana
+
+function manaLevel(mana_dedaction,made_turn){
+  if (made_turn = true){
+    current_mana = base_mana + 20
+    if (mana_dedaction =! 0){
+      current_mana = base_mana - mana_dedaction
+    }
+    if (current_mana < 0 ){current_mana = 0}
+    if (current_mana > base_mana){current_mana = base_mana}
+
+  }
+  
+
+  
+}
+
+
+function levelUp(exp){
+  if((current_exp + exp) >= 100){
+    player_dictionary.level = player_dictionary.level + 1;
+    player_dictionary.exp = (current_exp + exp) - 100 ;
+    
+  }
+  else{
+    player_dictionary.exp = current_exp + exp
+  }
+  
+  
+}
+
+
+/*
+
+//Function to do damage calcs (disconnected from everything. Should just have the damage and block values)
+//INPUTS: The attacker's attack value, The defender's block value
+//OUTPUTS: The value for how much damage the defender takes
+function damage_calc(attack_power, block_value) {
+
+  //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+  if (block_value => attack_power) {
+    return 1
+  }
+
+  //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+  
+  
+  return  Math.ceil((block_value - attack_power)/attack_power)
+  
+    
+  
+}
+
+//Function to manually create every aspect of an enemy. Could be useful in testng
+//Inputs: The individual stats for the enemy you wish to edit. In order: They are  name,  element, description, health stat, attack_stat, mana_stat. Since this is a manual creator, we can set level and stats directly for now. We could create a seperate function to adjust stats using level if we need to
+
+//level will be like coeficient so if the level is 2 multiply everything by 1.2 etc. Sure
+
+/*
+ function CreateEnemy(){
+  current_enemy"dictionary" = random_enemy(Location, Level)
+}
+
+// Move the Roll Die function outside of Battle so we can more easily control turns
+//roll the dice for 1 or 2 to know who attacks first
+//current_turn = roll_die(2)
+
+function Battle(current_enemy, location, current_turn){
+  //damage variable to hold the current damage dealth
+  let damage = 0
+  let block_value = 0
+  if (current_turn == 1) { 
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(player_dictionary['attack'])
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = current_enemy['block'] - damage
+
+    //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+
+    //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+
+    //I kinda what to use a function that calcs this stuff rather than copy past the damage calcs in both if statements
+
+    //Made the function Now to use it
+    damage = damage_calcs(damage, block_value)
+
+    //Room here to implement the 10% shifting thing.
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    player_dictionary['health'] = player_dictionary['health'] + damage
+
+
+
+    
+    
+  }
+  else {
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(current_enemy['attack'])
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = player_dictionary['block'] - damage
+
+    //Made the function Now to use it
+    damage = damage_calcs(damage, block_value)
+
+    //Room here to implement the 10% shifting thing
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    current_enemy['health'] = current_enemy['health'] + damage
+    
+  }
+  //roll the dice for the base damage dealt (without any modifications)
+   
+  // compare block/weapon wielding
+  //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+  //minus the energy assigned to attack (randomly +/- 10% to assingend value)
+  //check health of both if someone died break out of fight
+  otherwise ran fight again but dont roll the dice and just switch attaker
+  //If we want to switch attackers, then the roll die should probably be outside of the function, or be an optional arguement
+
+  // We should have return values that indicate different things
+
+  if (player_dictionary['health'] < 0) {
+    //We need a return value that tells us player is dead
+    return 1
+  }
+  if (current_enemy['health'] < 0) {
+    return 2
+  }
+
+}
+*/
+
+
+
 
 
 //Do Later. Create a Function to do the Battle Stuff. I need some way of testing it out without messing with the Html
 
-function battle (player, enemy) {
-
-
-}
+//function battle (player, enemy) {//}
 
 
 // We need an event listener for when the page loads
@@ -71,21 +217,31 @@ test_button.onclick = function() {
 
 
 // form part from me
+function setName(playerNameValue,player_dictionary){
+  player_dictionary.name = playerNameValue}
 
 document.addEventListener("DOMContentLoaded", function() {
   const nameForm = document.getElementById("name_form");
   const playerName = document.getElementById("player_name");
+  const travler_name = document.getElementById("travler_name");
+  
+ 
+   
+    
 
   nameForm.addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent the default form submission
 
       const usernameInput = document.getElementById("username");
       const playerNameValue = usernameInput.value;
+      setName(playerNameValue,player_dictionary)
+      travler_name.textContent = "Are You Ready To Begin Your Jorney " + player_dictionary.name +"?";
 
-      playerName.textContent = "Name: " + playerNameValue;
-
+      playerName.textContent = "Name: " + player_dictionary.name;
+      
       // Hide the form
       nameForm.style.display = "none";
+      return playerNameValue
   });
 
   // Bonus: Automatically focus on the input field when the page loads
@@ -94,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
       usernameInput.focus();
   });
 });
+
 
 // button fixed
 document.addEventListener("DOMContentLoaded", function() {
@@ -109,3 +266,4 @@ document.addEventListener("DOMContentLoaded", function() {
       }, 1000);
   });
 });
+
