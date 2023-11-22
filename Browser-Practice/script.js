@@ -40,26 +40,25 @@ create_enemy(enemy_dictionary);
 
 // Player data for now:
 //player stats : name, health, level, mana, race, attack, weapon type, element, block
-let player_dictionary = {name: "", level: 1, mana: 100, race: "", attack: 0, weapon_type: "", element: "", block: 1, exp:25};
+let player_dictionary = {name: "", level: 1, health: 100, mana: 50, race: "", attack: 0, weapon_type: "", element: "", block: 1, exp:25};
+
 let current_exp = player_dictionary.exp;
 let level_coeficient = (player_dictionary.level / 10) + 1;
-let base_mana = 100 * level_coeficient;
-player_dictionary.mana = base_mana
+let base_mana = 50 * level_coeficient;
+player_dictionary.mana = base_mana;
+let base_health = 100 * level_coeficient;
+player_dictionary.health = base_health;
+if(player_dictionary.level == 1){
+  player_dictionary.mana = 50
+  player_dictionary.health = 100
+};
 
-function manaLevel(mana_dedaction,made_turn){
-  if (made_turn = true){
-    current_mana = base_mana + 20
-    if (mana_dedaction =! 0){
-      current_mana = base_mana - mana_dedaction
-    }
-    if (current_mana < 0 ){current_mana = 0}
-    if (current_mana > base_mana){current_mana = base_mana}
-
-  }
-  
 
   
-}
+
+
+
+
 
 
 function levelUp(exp){
@@ -186,45 +185,52 @@ function Battle(current_enemy, location, current_turn){
 
 
 
-
 //Do Later. Create a Function to do the Battle Stuff. I need some way of testing it out without messing with the Html
-
-//function battle (player, enemy) {//}
-
-
-// We need an event listener for when the page loads
-
-document.addEventListener("DOMContentLoaded", function () {
- 
-//I want to have a button that I use to load the battle stuff eventually.
-//Reference to test button: 
-var test_button = document.getElementById("test_button");
-
-const test_div =  document.getElementById("test_div");
-
-test_button.onclick = function() {
-  alert("Hello! I am an alert box!!");
-  test_div.textContent = "Testing";
-
-}
-
-
-
-
-
-});
-
 
 
 // form part from me
 function setName(playerNameValue,player_dictionary){
-  player_dictionary.name = playerNameValue}
+  player_dictionary.name = playerNameValue};
+
 
 document.addEventListener("DOMContentLoaded", function() {
+  
+  const levelStatus = document.getElementById("level");
+  const player_mana = document.getElementById("mana");
+  const player_health = document.getElementById("health");
   const nameForm = document.getElementById("name_form");
   const playerName = document.getElementById("player_name");
   const travler_name = document.getElementById("travler_name");
+  let current_health = 85;
+
+
+
+
+
+
+   let current_mana_set = 10;
+
+
+
+
+
+
+
+
+
+
   
+  let health_percentage = (current_health/player_dictionary.health )*100
+  let mana_percentage = (current_mana_set/player_dictionary.mana)*100
+
+  levelStatus.textContent = "Level: " + player_dictionary.level;
+  player_health.style.fontSize = "2vw";
+  player_health.textContent = "Health: " + current_health + "/" + player_dictionary.health
+  player_health.style.background = 'linear-gradient(to right, #db343c ' + health_percentage + '%, #262727 10%)';
+  player_mana.style.fontSize = "2vw";
+  player_mana.textContent = "Mana: " + current_mana_set + "/" + player_dictionary.mana;
+  player_mana.style.background = 'linear-gradient(to right, #3493db ' + mana_percentage + '%, #262727 10%)';
+
  
    
     
@@ -259,11 +265,41 @@ document.addEventListener("DOMContentLoaded", function() {
   testButton.addEventListener("click", function() {
       // Change button color
       testButton.style.backgroundColor = "#00bfff"; // Change to your desired color
+      var box = document.getElementById('page1');
+      var book = document.getElementById('book');
+      var page = document.getElementById('start_page')
+          box.classList.add('animate');
 
       // Set timeout to revert the color after 1 second
       setTimeout(function() {
-          testButton.style.backgroundColor = ""; // Revert to the original color or remove this line for default color
-      }, 1000);
+          testButton.style.backgroundColor = "";
+          book.addEventListener('mouseleave', function() {
+            
+            box.classList.remove('animate'); // Remove the 'animate' class to stop the animation
+          });
+          
+
+      }, 600);
   });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const test_battle_Button = document.getElementById("test_battle_button");
+
+  test_battle_Button.addEventListener("click", function() {
+      // Change button color
+      test_battle_Button.style.backgroundColor = "#00bfff"; 
+      
+
+      
+
+      
+      setTimeout(function() {
+        test_battle_Button.style.backgroundColor = "";
+        }, 600);
+        
+       
+  });
+});
+
 

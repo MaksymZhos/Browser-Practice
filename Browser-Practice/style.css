@@ -135,6 +135,7 @@ header .health_mana{
     width: 40%;
     
 }
+
 .health{
     background: linear-gradient(to right, #db343c 85%, #262727 10% );
     border-style: solid;
@@ -333,6 +334,16 @@ header .health_mana{
     font-weight: bold;
     margin-bottom: 5px;
 }
+.book_text2 {
+    margin-top: 20px;
+    color: #262727;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    
+
+}
 
 .title {
     color: #262727;
@@ -393,6 +404,18 @@ header .health_mana{
 }
 
 .book:hover .pages .page:nth-child(3) {
-    transform: rotateY(-100deg) translateZ(1px);
+    transform: rotateY(-120deg) translateZ(1px);
     z-index: 3;
+}
+.book:hover .pages .page:nth-child(4) {
+   
+    z-index: 4;
+}
+.book:hover .pages .page:nth-child(5) {
+   
+    z-index: 5;
+}
+.animate{
+    transform: rotateY(-115deg) translateZ(1px);
+    z-index: 5;
 }

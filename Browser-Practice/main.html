@@ -16,15 +16,15 @@
                     <input id="username" style="height: 60%; width: 50%; margin-right: 1em;" type="text">
                 </form>
             </div>
-            <h3 id="level">Level: 52</h3>
+            <h3 id="level">Level: 1</h3>
         </div>
         <div class="health_mana" style="font-size: 60%;">
-            <h2 id="health" class="health">health: 85/100</h2>
-            <h3 id="mana" class="mana">mana: 26/170</h3>
+            <h2 id="health" class="health">health: 100/100</h2>
+            <h3 id="mana" class="mana">mana: 50/50</h3>
         </div>
     </header>
     <section class="main_game_section">
-        <div class="book">
+        <div id="book"class="book">
             <div class="cover">
                 <div class="title">Shadows Of The Past</div>
                         <div class="author">by Maksym,Ahmed</div>
@@ -38,23 +38,33 @@
                 <div class="page" style="color: black;" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet consequat mi. Fusce at dictum purus. Maecenas ultricies lorem sit amet nunc mattis mattis. Donec sagittis posuere diam, nec tempor libero convallis quis. Mauris eu ma</div>
                 <div class="page">
                     <div class="content">
-                        <div id="start_page" class="book_text" >
-                            <p id="travler_name">Are You Ready To Begin Your Jorney Travler?</p>
-                            <button id="test_button" type="button" >Begin!</button>
+                        <div id="start_page2" class="book_text2" >
+                            <p id="travler_race"> Select Your Race</p>
+                            <img src="images/pngkit_dwarf-png_847530.png" width="100" alt="">
+                            <button id="race_button" type="button"  >Select</button>
                         </div>   
                     </div>
                 </div>
+                <div id="page1" class="page">
+                    <div class="content">
+                        <div id="start_page" class="book_text" >
+                            <p id="travler_name">Are You Ready To Begin Your Jorney Travler?</p>
+                            <button id="test_button" type="button">Begin!</button>
+                        </div>   
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>
+    <button id="test_battle_button" type="button">Hey Max, Tie some logic to this button so when you click it, turns get incremented. So you can test the mana regen</button> 
     
 
-    <footer></footer>
-    <script>
-      
-    </script>
-
-    
+    <footer>
+       
+    </footer>
+   
+  
     <script src="script.js"></script>   
 </body>
 </html>
