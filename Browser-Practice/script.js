@@ -40,7 +40,7 @@ create_enemy(enemy_dictionary);
 
 // Player data for now:
 //player stats : name, health, level, mana, race, attack, weapon type, element, block
-let player_dictionary = {name: "", level: 1, health: 100, mana: 50, race: "", attack: 0, weapon_type: "", element: "", block: 1, exp:25};
+let player_dictionary = {name: "test_player", level: 1, health: 100, mana: 50, race: "", attack: 0, weapon_type: "", element: "", block: 1, exp:25};
 
 let current_exp = player_dictionary.exp;
 let level_coeficient = (player_dictionary.level / 10) + 1;
@@ -254,6 +254,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.addEventListener("focus", function() {
       const usernameInput = document.getElementById("username");
       usernameInput.focus();
+
+
+   
+    
+   
   });
 });
 
@@ -283,20 +288,165 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+//Test the battle function:
+//Create a test enemy
+current_enemy = {'name': "test_enemy", 'health': 5, 'mana': 5, 'attack': 90, 'block': 5};
+player_dictionary.attack = 90
+
+//Function to do damage calcs (disconnected from everything. Should just have the damage and block values)
+//INPUTS: The attacker's attack value, The defender's block value
+//OUTPUTS: The value for how much damage the defender takes
+function damage_calc(attack_power, block_value) {
+
+  //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+  if (block_value => attack_power) {
+    return 1
+  }
+
+  //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+  
+  
+  return  Math.ceil((block_value - attack_power)/attack_power)
+  
+    
+  
+}
+
+function damage_calc(attack_power, block_value) {
+
+  //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+  if (block_value >= attack_power) {
+    return 1
+  }
+
+  //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+  
+  
+  return  Math.ceil(0-(block_value - attack_power)/attack_power)
+  
+    
+  
+}
+
+// Move the Roll Die function outside of Battle so we can more easily control turns
+//roll the dice for 1 or 2 to know who attacks first
+//current_turn = roll_die(2)
+
+function Battle(current_enemy, current_turn=1, location=1){
+  //damage variable to hold the current damage dealth
+  let damage = 0
+  let block_value = 0
+  let list_of_responses = []
+  if (current_turn == 1) { 
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(current_enemy['attack'])
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = player_dictionary['block'] - damage
+
+    //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+
+    //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+
+    //I kinda what to use a function that calcs this stuff rather than copy past the damage calcs in both if statements
+
+    //Made the function Now to use it
+    damage = damage_calc(damage, block_value)
+
+    //Room here to implement the 10% shifting thing.
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    player_dictionary['health'] = player_dictionary['health'] - damage;
+
+    list_of_responses.push(`${player_dictionary.name} took ${damage} damage`)
+    
+
+
+
+    
+    
+  }
+  else {
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(player_dictionary['attack'])
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = create_enemy['block'] - damage
+
+    //Made the function Now to use it
+    damage = damage_calcs(damage, block_value)
+
+    //Room here to implement the 10% shifting thing
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    current_enemy['health'] = current_enemy['health'] - damage;
+    list_of_responses.push(`${current_enemy.name} took ${damage} damage`)
+    
+  }
+  //roll the dice for the base damage dealt (without any modifications)
+   
+  // compare block/weapon wielding
+  //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+  //minus the energy assigned to attack (randomly +/- 10% to assingend value)
+  //check health of both if someone died break out of fight otherwise ran fight again but dont roll the dice and just switch attaker
+  //If we want to switch attackers, then the roll die should probably be outside of the function, or be an optional arguement
+
+  // We should have return values that indicate different things
+
+  if (player_dictionary['health'] < 0) {
+    //We need a return value that tells us player is dead
+    list_of_responses.push(`${player_dictionary.name} has died`)
+
+    return 1, list_of_responses
+  }
+  if (current_enemy['health'] < 0) {
+    list_of_responses.push(`${current_enemy.name} has died`)
+    return 2, list_of_responses
+  }
+
+  return 0, list_of_responses
+
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
+
+  counter = 0
   const test_battle_Button = document.getElementById("test_battle_button");
 
   test_battle_Button.addEventListener("click", function() {
       // Change button color
       test_battle_Button.style.backgroundColor = "#00bfff"; 
       
-
-      
-
-      
       setTimeout(function() {
         test_battle_Button.style.backgroundColor = "";
         }, 600);
+
+        counter = counter += 1;
+        //player_dictionary.level += 1;
+
+        //time to test the battle function:
+        battle_response = Battle(enemy_dictionary, 1, 1)
+        console.log(battle_response)
+        document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter} and battle response is ${battle_response}. Player has ${player_dictionary.health} left`;
+
+
+
+
+
+        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter} and player level is ${player_dictionary.level}`
+
+
+
+        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter}`
+        // player_dictionary.level += 1;
+
+
+
         
        
   });
