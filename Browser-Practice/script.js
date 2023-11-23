@@ -182,10 +182,8 @@ function Battle(current_enemy, location, current_turn){
 }
 */
 
-
-
-
 //Do Later. Create a Function to do the Battle Stuff. I need some way of testing it out without messing with the Html
+
 
 
 // form part from me
@@ -282,13 +280,14 @@ document.addEventListener("DOMContentLoaded", function() {
       }, 600);
   });
 });
-
+var sound = document.getElementById("test_sound");
 document.addEventListener("DOMContentLoaded", function() {
   const test_battle_Button = document.getElementById("test_battle_button");
 
   test_battle_Button.addEventListener("click", function() {
       // Change button color
       test_battle_Button.style.backgroundColor = "#00bfff"; 
+      sound.play();
       
 
       
