@@ -419,3 +419,7 @@ header .health_mana{
     transform: rotateY(-115deg) translateZ(1px);
     z-index: 5;
 }
+
+#test_div_2 {
+    color: white;
+}
