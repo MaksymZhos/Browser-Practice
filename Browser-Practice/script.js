@@ -181,7 +181,159 @@ function Battle(current_enemy, location, current_turn){
 
 }
 */
+var current_battle_health = player_dictionary.health
 
+function Battle(current_enemy, current_turn=1, location=1){
+  //damage variable to hold the current damage dealth
+  let damage = 0
+  let block_value = 0
+  let list_of_responses = []
+  if (current_turn == 1) { 
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(current_enemy['attack'])
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = player_dictionary['block'] - damage
+
+    //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
+
+    //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
+
+    //I kinda what to use a function that calcs this stuff rather than copy past the damage calcs in both if statements
+
+    //Made the function Now to use it
+    damage = damage_calc(damage, block_value)
+
+    //Room here to implement the 10% shifting thing.
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    
+    current_battle_health = current_battle_health - damage;
+
+    list_of_responses.push(`${player_dictionary.name} took ${damage} damage`)
+    
+
+
+
+    
+    
+  }
+  else {
+
+    //roll the dice for the base damage dealt (without any modifications)
+    damage = roll_die(player_dictionary.attack)
+
+    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+    block_value = create_enemy['block'] - damage
+
+    //Made the function Now to use it
+    damage = damage_calcs(damage, block_value)
+
+    //Room here to implement the 10% shifting thing
+
+    //Since damage is negative, shouldn't the sum be positive?
+
+    current_enemy['health'] = current_enemy['health'] - damage;
+    list_of_responses.push(`${current_enemy.name} took ${damage} damage`)
+    
+  }
+  //roll the dice for the base damage dealt (without any modifications)
+   
+  // compare block/weapon wielding
+  //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
+  //minus the energy assigned to attack (randomly +/- 10% to assingend value)
+  //check health of both if someone died break out of fight otherwise ran fight again but dont roll the dice and just switch attaker
+  //If we want to switch attackers, then the roll die should probably be outside of the function, or be an optional arguement
+
+  // We should have return values that indicate different things
+
+  if (player_dictionary['health'] < 0) {
+    //We need a return value that tells us player is dead
+    list_of_responses.push(`${player_dictionary.name} has died`)
+    current_health = 0;
+
+    return 1, list_of_responses
+  }
+  if (current_enemy['health'] < 0) {
+    list_of_responses.push(`${current_enemy.name} has died`)
+    return 2, list_of_responses
+  }
+
+  return 0, list_of_responses
+
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  counter = 0
+  const test_battle_Button = document.getElementById("test_battle_button");
+  var sound = document.getElementById("test_sound");
+  const player_mana = document.getElementById("mana");
+        const player_health = document.getElementById("health");
+
+  test_battle_Button.addEventListener("click", function() {
+      // Change button color
+      test_battle_Button.style.backgroundColor = "#00bfff"; 
+      
+      setTimeout(function() {
+        test_battle_Button.style.backgroundColor = "";
+        }, 600);
+
+        sound.play();
+
+        counter = counter += 1;
+        //player_dictionary.level += 1;
+
+        //time to test the battle function:
+        battle_response = Battle(enemy_dictionary, 1, 1)
+        console.log(battle_response)
+        document.getElementById("test_div_2").textContent = `Hopefully new text and counter goes up ${counter} and battle response is ${battle_response}. Player has ${current_battle_health} left`;
+        
+        
+
+
+        let current_mana_set = 10;
+
+
+
+
+
+
+
+
+
+
+  
+          let health_percentage = (current_health/player_dictionary.health )*100
+          let mana_percentage = (current_mana_set/player_dictionary.mana)*100
+
+          levelStatus.textContent = "Level: " + player_dictionary.level;
+          player_health.style.fontSize = "2vw";
+          player_health.textContent = "Health: " + current_health + "/" + player_dictionary.health
+          player_health.style.background = 'linear-gradient(to right, #db343c ' + health_percentage + '%, #262727 10%)';
+          player_mana.style.fontSize = "2vw";
+          player_mana.textContent = "Mana: " + current_mana_set + "/" + player_dictionary.mana;
+          player_mana.style.background = 'linear-gradient(to right, #3493db ' + mana_percentage + '%, #262727 10%)';
+
+
+
+
+        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter} and player level is ${player_dictionary.level}`
+
+
+
+        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter}`
+        // player_dictionary.level += 1;
+
+
+
+        
+       
+  });
+});
 
 
 
@@ -196,40 +348,15 @@ function setName(playerNameValue,player_dictionary){
 document.addEventListener("DOMContentLoaded", function() {
   
   const levelStatus = document.getElementById("level");
-  const player_mana = document.getElementById("mana");
-  const player_health = document.getElementById("health");
+  
   const nameForm = document.getElementById("name_form");
   const playerName = document.getElementById("player_name");
   const travler_name = document.getElementById("travler_name");
-  let current_health = 85;
-
-
-
-
-
-
-   let current_mana_set = 10;
-
-
-
-
-
-
-
-
-
-
   
-  let health_percentage = (current_health/player_dictionary.health )*100
-  let mana_percentage = (current_mana_set/player_dictionary.mana)*100
 
-  levelStatus.textContent = "Level: " + player_dictionary.level;
-  player_health.style.fontSize = "2vw";
-  player_health.textContent = "Health: " + current_health + "/" + player_dictionary.health
-  player_health.style.background = 'linear-gradient(to right, #db343c ' + health_percentage + '%, #262727 10%)';
-  player_mana.style.fontSize = "2vw";
-  player_mana.textContent = "Mana: " + current_mana_set + "/" + player_dictionary.mana;
-  player_mana.style.background = 'linear-gradient(to right, #3493db ' + mana_percentage + '%, #262727 10%)';
+
+
+   
 
  
    
@@ -332,128 +459,5 @@ function damage_calc(attack_power, block_value) {
 //roll the dice for 1 or 2 to know who attacks first
 //current_turn = roll_die(2)
 
-function Battle(current_enemy, current_turn=1, location=1){
-  //damage variable to hold the current damage dealth
-  let damage = 0
-  let block_value = 0
-  let list_of_responses = []
-  if (current_turn == 1) { 
-
-    //roll the dice for the base damage dealt (without any modifications)
-    damage = roll_die(current_enemy['attack'])
-
-    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
-    block_value = player_dictionary['block'] - damage
-
-    //Example calculation 1: lets say block was 20 and damage was 10. Block - damage = 10. 10 >=10. So do what Pokemon does and do at least 1 damage
-
-    //Example Calulation 2: Lets say Block was 8, damage was 10. 8 - 10 = -2. -2 < 10. So End result is that the player should lose 2/10 or 20% of their health, rounded up
-
-    //I kinda what to use a function that calcs this stuff rather than copy past the damage calcs in both if statements
-
-    //Made the function Now to use it
-    damage = damage_calc(damage, block_value)
-
-    //Room here to implement the 10% shifting thing.
-
-    //Since damage is negative, shouldn't the sum be positive?
-
-    player_dictionary['health'] = player_dictionary['health'] - damage;
-
-    list_of_responses.push(`${player_dictionary.name} took ${damage} damage`)
-    
-
-
-
-    
-    
-  }
-  else {
-
-    //roll the dice for the base damage dealt (without any modifications)
-    damage = roll_die(player_dictionary['attack'])
-
-    //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
-    block_value = create_enemy['block'] - damage
-
-    //Made the function Now to use it
-    damage = damage_calcs(damage, block_value)
-
-    //Room here to implement the 10% shifting thing
-
-    //Since damage is negative, shouldn't the sum be positive?
-
-    current_enemy['health'] = current_enemy['health'] - damage;
-    list_of_responses.push(`${current_enemy.name} took ${damage} damage`)
-    
-  }
-  //roll the dice for the base damage dealt (without any modifications)
-   
-  // compare block/weapon wielding
-  //calculate damage after block by finding the percentage out of damage that wielding-block equal too and then mulitplying it by damage
-  //minus the energy assigned to attack (randomly +/- 10% to assingend value)
-  //check health of both if someone died break out of fight otherwise ran fight again but dont roll the dice and just switch attaker
-  //If we want to switch attackers, then the roll die should probably be outside of the function, or be an optional arguement
-
-  // We should have return values that indicate different things
-
-  if (player_dictionary['health'] < 0) {
-    //We need a return value that tells us player is dead
-    list_of_responses.push(`${player_dictionary.name} has died`)
-
-    return 1, list_of_responses
-  }
-  if (current_enemy['health'] < 0) {
-    list_of_responses.push(`${current_enemy.name} has died`)
-    return 2, list_of_responses
-  }
-
-  return 0, list_of_responses
-
-}
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  counter = 0
-  const test_battle_Button = document.getElementById("test_battle_button");
-  var sound = document.getElementById("test_sound");
-
-
-  test_battle_Button.addEventListener("click", function() {
-      // Change button color
-      test_battle_Button.style.backgroundColor = "#00bfff"; 
-      
-      setTimeout(function() {
-        test_battle_Button.style.backgroundColor = "";
-        }, 600);
-
-        sound.play();
-
-        counter = counter += 1;
-        //player_dictionary.level += 1;
-
-        //time to test the battle function:
-        battle_response = Battle(enemy_dictionary, 1, 1)
-        console.log(battle_response)
-        document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter} and battle response is ${battle_response}. Player has ${player_dictionary.health} left`;
-
-
-
-
-
-        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter} and player level is ${player_dictionary.level}`
-
-
-
-        //document.getElementById("test_div_2").innerHTML = `Hopefully new text and counter goes up ${counter}`
-        // player_dictionary.level += 1;
-
-
-
-        
-       
-  });
-});
 
 
