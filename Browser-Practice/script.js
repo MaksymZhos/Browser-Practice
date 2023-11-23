@@ -417,6 +417,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   counter = 0
   const test_battle_Button = document.getElementById("test_battle_button");
+  var sound = document.getElementById("test_sound");
+
 
   test_battle_Button.addEventListener("click", function() {
       // Change button color
@@ -425,6 +427,8 @@ document.addEventListener("DOMContentLoaded", function() {
       setTimeout(function() {
         test_battle_Button.style.backgroundColor = "";
         }, 600);
+
+        sound.play();
 
         counter = counter += 1;
         //player_dictionary.level += 1;
