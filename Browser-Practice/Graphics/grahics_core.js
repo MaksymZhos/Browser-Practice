@@ -1,11 +1,11 @@
 const number = 1;
 const type = 'field';
 const filePath = `Graphics/layout/${number}-${type}.json`;
-const tilesize = 16;
+const tilesize = 32;
 const mapWidth = 40;
 const mapHeight = 30;
 const canvasWidth = mapWidth * tilesize; // Set canvas width based on mapWidth and tilesize
-const canvasHeight = mapHeight * tilesize; // Set canvas height based on mapHeight and tilesize
+const canvasHeight = 720; // Set canvas height based on mapHeight and tilesize
 let backgroundLayer;
 const tileImages = {};
 

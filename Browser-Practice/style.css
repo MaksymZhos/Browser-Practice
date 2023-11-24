@@ -36,6 +36,8 @@ header img{
 }
 
 .main_game_section {
+    min-width: 1366px;
+    min-height: 768px;
     border-color: slategray;
     border-style: solid;
     margin: 30vh auto;
@@ -219,6 +221,8 @@ header .health_mana{
         display:grid;
     }
     .main_game_section {
+        min-width: 1366px;
+        min-height: 768px;
         border-color: slategray;
         border-style: solid;
         margin: 40vh auto;
@@ -418,4 +422,12 @@ header .health_mana{
 .animate{
     transform: rotateY(-115deg) translateZ(1px);
     z-index: 5;
+}
+
+canvas{
+    border-width: 3px;
+    border-style: solid;
+    border-color: slategray ;
+    z-index: 1;
+    box-shadow: 0 0 90px rgba(0, 0, 0, 5);
 }
