@@ -1,0 +1,43 @@
+body{overflow: hidden;
+background-color: black;
+margin: 0;}
+canvas{
+    
+    padding: 0 !important;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 50%;
+}
+
+
+@media screen and (min-aspect-ratio: 19/9) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+      }
+    canvas{
+    border-radius: 10px;
+    margin: 0 auto ;
+    width: 93%;
+    
+
+    }
+    
+}
+
+@media screen and (min-aspect-ratio: 19.7/9) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+      }
+    canvas{
+    border-radius: 10px;
+    margin: 0 auto ;
+    width: 90% !important;
+    
+
+    }
+    
+}
